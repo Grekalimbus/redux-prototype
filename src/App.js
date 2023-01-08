@@ -1,32 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { taskUpdated } from './store/actionTypes';
-import createStore from './store/createStore';
-import taskReducer from './store/taskReducer';
+import { initiateState } from './store/store';
+import * as actions from './store/actions';
 
-// переменная, где в createStore пушится изначальное состояние
-const initialState = [
-  { id: 1, title: 'Task 1', completed: false },
-  { id: 2, title: 'Task 2', completed: false },
-];
-const store = createStore(taskReducer, initialState);
+const store = initiateState();
 function App() {
   const [state, setState] = useState(store.getState());
+
   useEffect(() => {
     store.subscribe(() => {
       setState(store.getState());
     });
   }, []);
+
   const completeTask = (taskID) => {
-    store.dispatch({
-      type: taskUpdated,
-      payload: { id: taskID, completed: true },
-    });
+    store.dispatch(actions.taskCompleted(taskID));
   };
   const changeTitle = (taskID) => {
-    store.dispatch({
-      type: taskUpdated,
-      payload: { id: taskID, title: `New title for ${taskID}` },
-    });
+    store.dispatch(actions.titleChanged(taskID));
   };
 
   return (

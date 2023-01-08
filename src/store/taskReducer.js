@@ -1,6 +1,6 @@
 import { taskUpdated } from './actionTypes';
 
-function taskReducer(state, action) {
+function taskReducer(state = [], action) {
   switch (action.type) {
     case taskUpdated:
       {
@@ -16,7 +16,7 @@ function taskReducer(state, action) {
       }
       break;
     default:
-      break;
+      return state;
   }
 }
 
