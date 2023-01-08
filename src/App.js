@@ -1,10 +1,12 @@
 import React from 'react';
 
 function createStore(initialState) {
+  // state - состояние
   let state = initialState;
   function getState() {
     return state;
   }
+  // функция, меняющая состояние
   function dispatch(action) {
     console.log(action);
     if (action.type === 'task/completed') {
@@ -19,6 +21,7 @@ function createStore(initialState) {
   }
   return { getState, dispatch };
 }
+// переменная, где в createStore пушится изначальное состояние
 const store = createStore([{ id: 1, description: 'Task 1', completed: false }]);
 function App() {
   console.log(store.getState());
