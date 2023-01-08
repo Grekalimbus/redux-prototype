@@ -1,41 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { initiateState } from './store/store';
+import * as actions from './store/actions';
 
-function createStore(initialState) {
-  // state - состояние
-  let state = initialState;
-  function getState() {
-    return state;
-  }
-  // функция, меняющая состояние
-  function dispatch(action) {
-    console.log(action);
-    if (action.type === 'task/completed') {
-      const newArray = [...state];
-      const elementIndex = newArray.findIndex(
-        (el) => el.id === action.payload.id
-      );
-      newArray[elementIndex].completed = true;
-      state = newArray;
-      console.log(state);
-    }
-  }
-  return { getState, dispatch };
-}
-// переменная, где в createStore пушится изначальное состояние
-const store = createStore([{ id: 1, description: 'Task 1', completed: false }]);
+const store = initiateState();
 function App() {
-  console.log(store.getState());
+  const [state, setState] = useState(store.getState());
+
+  useEffect(() => {
+    store.subscribe(() => {
+      setState(store.getState());
+    });
+  }, []);
+
+  const completeTask = (taskID) => {
+    store.dispatch(actions.taskCompleted(taskID));
+  };
+  const changeTitle = (taskID) => {
+    store.dispatch(actions.titleChanged(taskID));
+  };
 
   return (
     <div>
       App
-      <button
-        onClick={() => {
-          store.dispatch({ type: 'task/completed', payload: { id: 1 } });
-        }}
-      >
-        Complete
-      </button>
+      <ul>
+        {state.map((item) => {
+          return (
+            <li key={item.id}>
+              <p>{` ${item.title}`}</p>
+              <p>{`completed: ${item.completed}`}</p>
+              <button
+                onClick={() => {
+                  completeTask(item.id);
+                }}
+              >
+                Complete
+              </button>
+              <button
+                onClick={() => {
+                  changeTitle(item.id);
+                }}
+              >
+                Change title
+              </button>
+              <hr />
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
