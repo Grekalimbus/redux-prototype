@@ -1,5 +1,5 @@
 import { legacy_createStore as configureStore } from 'redux';
-import taskReducer from './taskReducer';
+import taskReducer from './task';
 
 const initialState = [
   { id: 1, title: 'Task 1', completed: false },
