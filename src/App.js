@@ -18,6 +18,9 @@ function App() {
   const changeTitle = (taskID) => {
     store.dispatch(actions.titleChanged(taskID));
   };
+  const deleteTask = (taskID) => {
+    store.dispatch(actions.taskDeleted(taskID));
+  };
 
   return (
     <div>
@@ -29,6 +32,7 @@ function App() {
               <p>{` ${item.title}`}</p>
               <p>{`completed: ${item.completed}`}</p>
               <button
+                className="btn btn-primary m-2"
                 onClick={() => {
                   completeTask(item.id);
                 }}
@@ -36,11 +40,20 @@ function App() {
                 Complete
               </button>
               <button
+                className="btn btn-success m-2"
                 onClick={() => {
                   changeTitle(item.id);
                 }}
               >
                 Change title
+              </button>
+              <button
+                className="btn btn-danger m-2"
+                onClick={() => {
+                  deleteTask(item.id);
+                }}
+              >
+                Delete task
               </button>
               <hr />
             </li>
