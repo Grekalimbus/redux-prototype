@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { initiateState } from './store/store';
-import { titleChanged, taskDeleted, completeTask } from './store/task';
+import {
+  titleChanged,
+  taskDeleted,
+  completeTask,
+  getTasks,
+} from './store/task';
 const store = initiateState();
 function App() {
   const [state, setState] = useState(store.getState());
 
   useEffect(() => {
+    store.dispatch(getTasks());
     store.subscribe(() => {
       setState(store.getState());
     });
