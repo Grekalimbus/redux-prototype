@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { initiateState } from './store/store';
-import { taskCompleted, titleChanged, taskDeleted } from './store/task';
+import { titleChanged, taskDeleted, completeTask } from './store/task';
 const store = initiateState();
 function App() {
   const [state, setState] = useState(store.getState());
@@ -10,10 +10,6 @@ function App() {
       setState(store.getState());
     });
   }, []);
-
-  const completeTask = (taskID) => {
-    store.dispatch(taskCompleted(taskID));
-  };
   const changeTitle = (taskID) => {
     store.dispatch(titleChanged(taskID));
   };
@@ -33,7 +29,7 @@ function App() {
               <button
                 className="btn btn-primary m-2"
                 onClick={() => {
-                  completeTask(item.id);
+                  store.dispatch(completeTask(item.id));
                 }}
               >
                 Complete
