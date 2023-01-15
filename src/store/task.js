@@ -1,4 +1,4 @@
-import { createAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import todosService from '../services/todos.service';
 import { setErrors } from './errors';
 
@@ -26,6 +26,12 @@ const taskSlice = createSlice({
         (el) => el.id !== action.payload.id
       );
     },
+    loadCreateTask(state, action) {
+      state.entities = [
+        { ...action.payload, id: state.entities.length + 1 },
+        ...state.entities,
+      ];
+    },
     taskRequested(state, action) {
       state.isLoading = true;
     },
@@ -36,7 +42,14 @@ const taskSlice = createSlice({
 });
 
 const { actions, reducer: taskReducer } = taskSlice;
-const { update, remove, recived, taskRequested, taskRequestFailed } = actions;
+const {
+  update,
+  remove,
+  recived,
+  taskRequested,
+  taskRequestFailed,
+  loadCreateTask,
+} = actions;
 
 export const loadTasks = () => async (dispatch) => {
   dispatch(taskRequested());
@@ -45,6 +58,15 @@ export const loadTasks = () => async (dispatch) => {
     dispatch(recived(data));
   } catch (error) {
     dispatch(taskRequestFailed());
+    dispatch(setErrors(error.message));
+  }
+};
+
+export const createTask = () => async (dispatch) => {
+  try {
+    const data = await todosService.create();
+    dispatch(loadCreateTask(data));
+  } catch (error) {
     dispatch(setErrors(error.message));
   }
 };

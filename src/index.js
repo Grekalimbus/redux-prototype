@@ -10,6 +10,7 @@ import {
   getTasks,
   loadTasks,
   getTasksLoadingStatus,
+  createTask,
 } from './store/task';
 import { getErrors } from './store/errors';
 const store = createStore();
@@ -40,6 +41,14 @@ function App() {
     return (
       <div>
         App
+        <button
+          className="btn btn-success m-2"
+          onClick={() => {
+            dispatch(createTask());
+          }}
+        >
+          Add Task
+        </button>
         <ul>
           {state.map((item) => {
             return (
