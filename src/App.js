@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { initiateState } from './store/store';
+import { createStore } from './store/store';
 import {
   titleChanged,
   taskDeleted,
   completeTask,
   getTasks,
 } from './store/task';
-const store = initiateState();
+const store = createStore();
 function App() {
   const [state, setState] = useState(store.getState());
 
