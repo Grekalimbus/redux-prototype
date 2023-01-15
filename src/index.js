@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Provider, useSelector } from 'react-redux';
+import { Provider, useSelector, useDispatch } from 'react-redux';
 import { createStore } from './store/store';
 import {
   titleChanged,
@@ -12,16 +12,17 @@ import {
 const store = createStore();
 function App() {
   const state = useSelector((state) => state);
+  const dispatch = useDispatch();
   console.log(state);
 
   useEffect(() => {
-    store.dispatch(getTasks());
+    dispatch(getTasks());
   }, []);
   const changeTitle = (taskID) => {
-    store.dispatch(titleChanged(taskID));
+    dispatch(titleChanged(taskID));
   };
   const deleteTask = (taskID) => {
-    store.dispatch(taskDeleted(taskID));
+    dispatch(taskDeleted(taskID));
   };
 
   return (
@@ -36,7 +37,7 @@ function App() {
               <button
                 className="btn btn-primary m-2"
                 onClick={() => {
-                  store.dispatch(completeTask(item.id));
+                  dispatch(completeTask(item.id));
                 }}
               >
                 Complete
