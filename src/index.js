@@ -8,18 +8,21 @@ import {
   taskDeleted,
   completeTask,
   getTasks,
+  loadTasks,
+  getTasksLoadingStatus,
 } from './store/task';
+import { getErrors } from './store/errors';
 const store = createStore();
 
 function App() {
-  const state = useSelector((state) => state.tasks.entities);
-  const isLoading = useSelector((state) => state.tasks.isLoading);
-  const error = useSelector((state) => state.errors.entities[0]);
+  const state = useSelector(getTasks());
+  const isLoading = useSelector(getTasksLoadingStatus());
+  const error = useSelector(getErrors());
   const dispatch = useDispatch();
   console.log(state);
 
   useEffect(() => {
-    dispatch(getTasks());
+    dispatch(loadTasks());
   }, []);
   const changeTitle = (taskID) => {
     dispatch(titleChanged(taskID));

@@ -13,7 +13,10 @@ const errorSlice = createSlice({
 
 const { actions, reducer: errorReducer } = errorSlice;
 const { set } = actions;
+
 export const setErrors = (message) => (dispatch) => {
   dispatch(set(message));
 };
+
+export const getErrors = () => (state) => state.errors.entities[0];
 export default errorReducer;
